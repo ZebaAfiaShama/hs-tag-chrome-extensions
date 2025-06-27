@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Tag Scout",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "A smart tagging assistant for Help Scout.",
   "permissions": ["storage"],
   "icons": {
@@ -23,7 +23,8 @@
     "default_icon": {
       "16": "icon16.png",
       "48": "icon48.png"
-    }
+    },
+    "default_title": "Tag Scout"
   },
   "browser_specific_settings": {
     "edge": {
