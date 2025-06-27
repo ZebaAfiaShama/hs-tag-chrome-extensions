@@ -1,19 +1,22 @@
-// background.js - FINAL VERSION with chrome.runtime.connect
+// background.js - FINAL VERSION (v20 - Robust Connection Handling)
 
-console.log("Zeba Background Script (v18) started.");
+console.log("Zeba Background Script (v20) started.");
 
-// Listen for a long-lived connection from a content script
 chrome.runtime.onConnect.addListener(port => {
-  console.assert(port.name === "zeba-content-script");
-  console.log("Zeba: Content script connected.");
+  // We expect the port to be named "zeba-content-script"
+  if (port.name !== "zeba-content-script") {
+    console.warn("Zeba: Unknown connection attempt.", port);
+    return;
+  }
+  
+  console.log("Zeba: Content script connected successfully.");
 
   // Listen for messages on this specific port
   port.onMessage.addListener(msg => {
     if (msg.type === 'getSettings') {
       chrome.storage.sync.get(['rules', 'autoTagging'], (data) => {
         if (chrome.runtime.lastError) {
-          console.error("Zeba Background Error:", chrome.runtime.lastError);
-          // Don't send a response if storage fails
+          console.error("Zeba Background Storage Error:", chrome.runtime.lastError);
           return;
         }
         // Send the settings back through the same port
@@ -23,6 +26,7 @@ chrome.runtime.onConnect.addListener(port => {
   });
 
   port.onDisconnect.addListener(() => {
-    console.log("Zeba: Content script disconnected.");
+    // This is normal when a tab is closed or navigated.
+    console.log("Zeba: Content script port disconnected.");
   });
 });
