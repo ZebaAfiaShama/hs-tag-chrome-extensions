@@ -2,6 +2,7 @@
   "manifest_version": 3,
   "name": "Tag Scout",
   "version": "1.0.0",
+  "author": "Zeba Afia Shama",
   "description": "A smart tagging assistant for Help Scout.",
   "permissions": ["storage"],
   "icons": {
