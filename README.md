@@ -1,6 +1,6 @@
-# Zeba - A Smart Tagging Assistant for Help Scout
+# Tag Scout - A Smart Tagging Assistant for Help Scout
 
-Zeba is a lightweight Chrome Extension designed to speed up your workflow in Help Scout by automatically suggesting relevant tags based on the content of a ticket.
+Tag Scout is a lightweight Chrome and Edge Extension designed to speed up your workflow in Help Scout by automatically suggesting relevant tags based on the content of a ticket.
 
   <!-- Optional: You can create a GIF and upload it to a site like Imgur to show it off -->
 
