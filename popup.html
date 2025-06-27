@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tag Scout Settings</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -14,23 +15,26 @@
       Enable Tag Suggestions
     </label>
   </div>
+  
+  <form onsubmit="return false;">
+    <div class="form-group">
+      <label for="keyword">Keyword</label>
+      <input type="text" id="keyword" placeholder="e.g. refund" autofocus>
+    </div>
 
-  <div class="form-group">
-    <label for="keyword">Keyword</label>
-    <input type="text" id="keyword" placeholder="e.g. refund">
-  </div>
+    <div class="form-group">
+      <label for="tag">Tag</label>
+      <input type="text" id="tag" placeholder="e.g. billing">
+    </div>
 
-  <div class="form-group">
-    <label for="tag">Tag</label>
-    <input type="text" id="tag" placeholder="e.g. billing">
-  </div>
-
-  <button id="addRule">Add Rule</button>
+    <button id="addRule">Add Rule</button>
+  </form>
 
   <div class="tag-list">
     <h4>Saved Rules</h4>
     <ul id="ruleList"></ul>
   </div>
 
-  <script src="popup.js"></script></body>
+  <script src="popup.js"></script>
+</body>
 </html>

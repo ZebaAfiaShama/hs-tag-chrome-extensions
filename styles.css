@@ -12,16 +12,19 @@ h3, h4 {
   color: #2c3e50;
 }
 
+.form-group {
+  margin-bottom: 12px;
+}
+
 label {
-  margin-top: 12px;
   display: block;
   font-weight: bold;
+  margin-bottom: 4px;
 }
 
 input[type="text"] {
   width: 100%;
   padding: 6px 8px;
-  margin-top: 4px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -29,6 +32,7 @@ input[type="text"] {
 
 input[type="checkbox"] {
   margin-right: 6px;
+  vertical-align: middle;
 }
 
 button {
@@ -47,10 +51,29 @@ button:hover {
   background-color: #2980b9;
 }
 
+/* Accessibility: Add focus styles */
+button:focus, input[type="text"]:focus {
+  outline: 2px solid #2980b9;
+  outline-offset: 2px;
+}
+
+/* Style for disabled buttons */
+button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+button:disabled:hover {
+  background-color: #ccc;
+}
+
+
 ul#ruleList {
   list-style-type: none;
   padding-left: 0;
   margin-top: 10px;
+  max-height: 150px; /* Prevent list from getting too long */
+  overflow-y: auto;
 }
 
 ul#ruleList li {
@@ -64,6 +87,16 @@ ul#ruleList li {
   align-items: center;
 }
 
+/* Overflow handling for long rules */
+.rule-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+
 ul#ruleList button {
   background: #e74c3c;
   padding: 3px 6px;
@@ -72,6 +105,7 @@ ul#ruleList button {
   color: white;
   border: none;
   cursor: pointer;
+  flex-shrink: 0; /* Prevent delete button from shrinking */
 }
 
 ul#ruleList button:hover {
