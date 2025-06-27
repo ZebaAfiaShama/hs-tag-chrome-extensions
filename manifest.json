@@ -1,32 +1,33 @@
 {
   "manifest_version": 3,
-  "name": "Zeba",
+  "name": "Tag Scout",
   "version": "1.0",
   "description": "A smart tagging assistant for Help Scout.",
   "permissions": ["storage"],
-
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
     "128": "icon128.png"
   },
-
   "background": {
     "service_worker": "background.js"
   },
-
   "content_scripts": [
     {
       "matches": ["https://secure.helpscout.net/conversation/*"],
       "js": ["content.js"]
     }
   ],
-
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icon16.png",
       "48": "icon48.png"
+    }
+  },
+  "browser_specific_settings": {
+    "edge": {
+      "browser_action_next_to_address_bar": true
     }
   }
 }

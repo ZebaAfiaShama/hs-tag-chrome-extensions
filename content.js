@@ -1,8 +1,8 @@
-// content.js - FINAL VERSION (v20 - Resilient, Click-to-Add)
+// content.js - FINAL VERSION (v20 - Renamed to Tag Scout)
 
 (function() {
   "use strict";
-  console.log("Zeba (v20) is ALIVE and starting...");
+  console.log("Tag Scout (v20) is ALIVE and starting...");
 
   // --- Global State & Connection ---
   let currentConversationId = null;
@@ -11,19 +11,19 @@
   let port = null; // Holds our persistent connection
 
   function setupConnection() {
-    console.log("Zeba: Attempting to connect to background script...");
-    port = chrome.runtime.connect({ name: "zeba-content-script" });
+    console.log("Tag Scout: Attempting to connect to background script...");
+    port = chrome.runtime.connect({ name: "tag-scout-content-script" }); // Changed port name
     
     port.onMessage.addListener(response => {
-      console.log("Zeba: Received settings from background:", response);
+      console.log("Tag Scout: Received settings from background:", response);
       if (!(response.autoTagging ?? true)) return;
       const tags = suggestTags(getConversationContent(), response.rules || {});
-      console.log(`Zeba: Found ${tags.length} suggested tags:`, tags);
+      console.log(`Tag Scout: Found ${tags.length} suggested tags:`, tags);
       updateTagUI(tags);
     });
 
     port.onDisconnect.addListener(() => {
-      console.warn("Zeba: Port disconnected. It will auto-reconnect on the next action.");
+      console.warn("Tag Scout: Port disconnected. It will auto-reconnect on the next action.");
       port = null; // Mark port as dead so we know to reconnect
     });
   }
@@ -32,11 +32,11 @@
   function mainLoop() {
     const newId = getConversationIdFromUrl();
     if (newId && newId !== currentConversationId) {
-      console.log(`Zeba: New conversation detected (${newId}). Resetting.`);
+      console.log(`Tag Scout: New conversation detected (${newId}). Resetting.`);
       currentConversationId = newId;
       hasRunForCurrentId = false;
       clickedTags.clear();
-      const oldContainer = document.getElementById("zebaTagContainer");
+      const oldContainer = document.getElementById("tagScoutContainer"); // Changed ID
       if (oldContainer) oldContainer.remove();
     }
     if (currentConversationId && !hasRunForCurrentId) {
@@ -50,12 +50,12 @@
 
   // --- Core Logic ---
   function runTagSuggestionLogic() {
-    console.log("%cZeba: Anchor found! Requesting settings.", "color: green; font-weight: bold;");
+    console.log("%cTag Scout: Anchor found! Requesting settings.", "color: green; font-weight: bold;");
     if (!port) setupConnection();
     if (port) {
         port.postMessage({ type: "getSettings" });
     } else {
-        console.error("Zeba: Port connection failed. Cannot request settings.");
+        console.error("Tag Scout: Could not establish a connection to the background script.");
     }
   }
 
@@ -64,7 +64,6 @@
     const addTagButton = document.querySelector('[data-cy="AddTagButton"]');
     if (!addTagButton) return;
     addTagButton.click();
-
     setTimeout(() => {
       const tagInput = document.querySelector('input.DropList__Combobox__input');
       if (!tagInput) return;
@@ -94,31 +93,25 @@
   function updateTagUI(suggestedTags) {
     const tagButton = document.querySelector('[data-cy="AddTagButton"]');
     if (!tagButton || !tagButton.parentElement) return;
-    
     const injectionPoint = tagButton.parentElement;
-    let container = document.getElementById("zebaTagContainer");
+    let container = document.getElementById("tagScoutContainer"); // Changed ID
     if (!container) {
       container = document.createElement("div");
-      container.id = "zebaTagContainer";
+      container.id = "tagScoutContainer"; // Changed ID
       container.style.cssText = `display: flex; align-items: center; gap: 8px; padding: 0 8px;`;
       injectionPoint.insertBefore(container, tagButton);
     }
-    
     if (suggestedTags.length === 0) {
       container.style.display = "none";
       return;
     }
-
     container.style.display = "flex";
-    // THIS IS THE UI BUG FIX: Build elements programmatically
-    container.innerHTML = ''; // Clear previous content safely
-    
+    container.innerHTML = '';
     const separator = document.createElement('div');
     separator.style.cssText = 'width: 1px; height: 24px; background-color: #dfe3e7; margin-right: 8px;';
     container.appendChild(separator);
-
     const label = document.createElement('strong');
-    label.textContent = "Zeba:";
+    label.textContent = "Tag Scout:"; // Changed Label
     label.style.cssText = 'font-size: 13px; color: #5f6f7d; font-weight: 500;';
     container.appendChild(label);
     
@@ -133,7 +126,6 @@
         if (clickedTags.has(tag)) return;
         clickedTags.add(tag);
         addSingleTagToHelpScout(tag);
-        
         tagPill.disabled = true;
         tagPill.style.backgroundColor = '#f0f0f0';
         tagPill.style.borderColor = '#ccc';
